@@ -22,18 +22,19 @@ the user) writes expert prompts → prompts are split into ordered **chunks** �
 - [x] Shared Zod contracts used by both API and web
 - [x] GitHub Actions CI (lint, typecheck, test, build)
 
-## Phase 1: BASIC wizard (no AI yet)
+## Phase 1: BASIC wizard (no AI yet) ✅
 
 Goal: a non-technical user answers simple questions and ends up with a
 structured "website brief" saved in the database.
 
-- [ ] Wizard engine: step definitions as data (question, type, options, validation)
-- [ ] Steps: site type → pages → template/layout → color palette → fonts →
-      content/tone → features (contact form, gallery, ...) → review
-- [ ] Visual pickers (color swatches, template thumbnails, UI style previews)
-- [ ] Autosave each step to `Project.requirements` (`PATCH /projects/:id/requirements`)
-- [ ] Resume an unfinished wizard
-- [ ] Brief summary page
+- [x] Wizard engine: steps and option catalogs as data in `@sitenura/shared`
+- [x] Steps: details → site type → pages → style → color palette → fonts →
+      tone → features → review
+- [x] Visual pickers (palette swatches, layout mini-mockups, font and tone samples)
+- [x] Save each step to `Project.requirements` (`PATCH /projects/:id/requirements`)
+- [x] Resume an unfinished wizard (`Project.wizardStep`)
+- [x] Review screen with per-answer Edit
+- [ ] Later: custom brand colors and logo upload
 
 ## Phase 2: LLM provider adapters
 

@@ -65,9 +65,26 @@ src/
 
 - English UI with the Geist font; logical CSS properties keep it RTL-ready
 - Semantic design tokens in `globals.css` (light/dark)
-- Server state via TanStack Query; forms via React Hook Form + Zod
+- Server state via TanStack Query; validation via the shared Zod schemas
+
+## BASIC wizard
+
+The wizard is data-driven. `packages/shared/src/wizard/` holds:
+
+- `catalog.ts`: option lists (site types, pages, styles, palettes, fonts, tones, features)
+- `steps.ts`: the ordered steps and which brief fields each one answers
+- `brief.schema.ts`: `websiteBriefSchema` (complete brief) and `draftBriefSchema` (in progress)
+
+Flow: the web validates the current step with `websiteBriefSchema.pick(fields)`, then
+`PATCH /projects/:id/requirements` sends only that step's answers plus the next step id.
+The API merges them into the stored draft, re-validates, and keeps the project name in
+sync with the business name. Reopening `/projects/:id/wizard` resumes at `wizardStep`.
+
+Adding a step: add the field to the brief schema, a catalog if needed, an entry in
+`WIZARD_STEPS`, and a `case` in `features/wizard/components/step-content.tsx`.
 
 ## Data model
 
-- `Project`: name, mode (BASIC/ADVANCED), planner provider, status, `requirements` (wizard answers as JSON)
+- `Project`: name, mode (BASIC/ADVANCED), planner provider, status, `requirements`
+  (wizard answers as JSON), `wizardStep` (resume point)
 - `PromptChunk`: ordered unit of work: `userIntent` → `plannedPrompt` (planner) → `executorOutput` (Claude)
