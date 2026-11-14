@@ -3,7 +3,7 @@
 ## Monorepo
 
 ```
-prompt-bridge/
+sitenura/
 ├── apps/
 │   ├── api/        NestJS 12 REST API (port 4000)
 │   └── web/        Next.js 16 App Router (port 3000)
@@ -18,7 +18,7 @@ and caches results.
 
 ## Shared contract
 
-`@prompt-bridge/shared` holds Zod schemas (`createProjectSchema`, `projectSchema`, ...).
+`@sitenura/shared` holds Zod schemas (`createProjectSchema`, `projectSchema`, ...).
 
 - The **API** validates incoming bodies with them (`ZodValidationPipe`).
 - The **web** validates API responses with them (`apiRequest({ schema })`).

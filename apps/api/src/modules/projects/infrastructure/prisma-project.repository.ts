@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import type { CreateProjectInput, Project } from '@prompt-bridge/shared';
+import type { CreateProjectInput, Project } from '@sitenura/shared';
 import type { Project as ProjectRecord } from '../../../generated/prisma/client.js';
 import { PrismaService } from '../../../infrastructure/database/prisma.service.js';
 import { ProjectRepository } from '../domain/project.repository.js';

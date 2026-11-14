@@ -1,4 +1,4 @@
-import type { CreateProjectInput, Project } from '@prompt-bridge/shared';
+import type { CreateProjectInput, Project } from '@sitenura/shared';
 
 /**
  * Port (hexagonal architecture): the application layer depends on this

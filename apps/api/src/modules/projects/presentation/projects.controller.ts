@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, ParseUUIDPipe, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { createProjectSchema, type CreateProjectInput, type Project } from '@prompt-bridge/shared';
+import { createProjectSchema, type CreateProjectInput, type Project } from '@sitenura/shared';
 import { ZodValidationPipe } from '../../../common/pipes/zod-validation.pipe.js';
 import { ProjectsService } from '../application/projects.service.js';
 

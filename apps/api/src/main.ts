@@ -21,7 +21,7 @@ async function bootstrap(): Promise<void> {
     const document = SwaggerModule.createDocument(
       app,
       new DocumentBuilder()
-        .setTitle('PromptBridge API')
+        .setTitle('Sitenura API')
         .setDescription('Planner LLM -> Claude executor pipeline')
         .setVersion('1.0')
         .build(),

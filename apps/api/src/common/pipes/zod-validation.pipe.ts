@@ -3,7 +3,7 @@ import { z, type ZodType } from 'zod';
 
 /**
  * Validates request payloads with the same Zod schemas the web app uses
- * (from @prompt-bridge/shared), so the contract lives in one place.
+ * (from @sitenura/shared), so the contract lives in one place.
  */
 @Injectable()
 export class ZodValidationPipe<T extends ZodType> implements PipeTransform<unknown, z.infer<T>> {

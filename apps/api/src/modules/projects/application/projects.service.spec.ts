@@ -1,5 +1,5 @@
 import { NotFoundException } from '@nestjs/common';
-import type { CreateProjectInput, Project } from '@prompt-bridge/shared';
+import type { CreateProjectInput, Project } from '@sitenura/shared';
 import { ProjectRepository } from '../domain/project.repository.js';
 import { ProjectsService } from './projects.service.js';
 

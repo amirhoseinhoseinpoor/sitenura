@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: { default: 'PromptBridge', template: '%s | PromptBridge' },
+  title: { default: 'Sitenura', template: '%s | Sitenura' },
   description: 'Build your website step by step with AI, no coding required.',
 };
 
