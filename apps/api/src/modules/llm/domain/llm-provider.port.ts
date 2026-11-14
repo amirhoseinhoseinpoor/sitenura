@@ -1,7 +1,7 @@
-import type { PlannerProvider } from '@prompt-bridge/shared';
+import type { PlannerProvider } from '@sitenura/shared';
 
 /**
- * Port for any LLM PromptBridge talks to. Adapters (OpenAI, Gemini, Anthropic)
+ * Port for any LLM Sitenura talks to. Adapters (OpenAI, Gemini, Anthropic)
  * are implemented in Phase 2. The pipeline only ever depends on this contract,
  * which keeps adding a new provider a one-file change.
  */

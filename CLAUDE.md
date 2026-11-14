@@ -4,7 +4,7 @@ Guidance for AI assistants working in this repo.
 
 - Monorepo: pnpm + Turborepo. Run commands from the root (`pnpm build`, `pnpm test`, ...).
 - `packages/shared` is the API contract. Change schemas there first, then rebuild it
-  (`pnpm --filter @prompt-bridge/shared build`) before touching api/web.
+  (`pnpm --filter @sitenura/shared build`) before touching api/web.
 - API (`apps/api`) is ESM (`"type": "module"`): relative imports end in `.js`.
 - API features follow `modules/<feature>/{domain,application,infrastructure,presentation}`.
   Services depend on abstract ports in `domain/`, never on Prisma directly.

@@ -1,4 +1,4 @@
-# PromptBridge Roadmap
+# Sitenura Roadmap
 
 Each phase ends in something that runs. We go one phase at a time and close
 each one with a PR before starting the next.

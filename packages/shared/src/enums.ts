@@ -1,5 +1,5 @@
 /**
- * How the user interacts with PromptBridge.
+ * How the user interacts with Sitenura.
  * - BASIC: guided, step-by-step wizard for non-technical users.
  * - ADVANCED: free-form prompt for people who know what they want.
  */

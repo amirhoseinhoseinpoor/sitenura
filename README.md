@@ -1,8 +1,8 @@
-# PromptBridge
+# Sitenura
 
 Build a website without knowing how to code.
 
-PromptBridge sits between the user and AI models. The user describes what they
+Sitenura sits between the user and AI models. The user describes what they
 want (or, in **Basic mode**, answers a guided step-by-step wizard about colors,
 templates and UI style). A **planner model** of their choice (ChatGPT, Gemini, ...)
 turns that into expert prompts, splits them into small ordered chunks, and

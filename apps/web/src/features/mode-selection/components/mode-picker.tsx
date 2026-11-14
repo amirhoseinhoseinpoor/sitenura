@@ -1,6 +1,6 @@
 'use client';
 
-import { InteractionMode } from '@prompt-bridge/shared';
+import { InteractionMode } from '@sitenura/shared';
 import { Code2, Sparkles } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';

@@ -1,4 +1,4 @@
-import { projectSchema, type CreateProjectInput, type Project } from '@prompt-bridge/shared';
+import { projectSchema, type CreateProjectInput, type Project } from '@sitenura/shared';
 import { apiRequest } from '@/lib/api-client';
 
 export const projectsKeys = {

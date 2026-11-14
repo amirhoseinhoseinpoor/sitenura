@@ -1,4 +1,4 @@
-// PromptBridge data model.
+// Sitenura data model.
 // Docs: https://pris.ly/d/prisma-schema
 
 generator client {
@@ -39,7 +39,7 @@ enum PromptChunkStatus {
   FAILED
 }
 
-/// A website the user is building through PromptBridge.
+/// A website the user is building through Sitenura.
 model Project {
   id              String          @id @default(uuid()) @db.Uuid
   name            String          @db.VarChar(120)

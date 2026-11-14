@@ -1,7 +1,7 @@
 {
-  "name": "prompt-bridge",
+  "name": "sitenura",
   "private": true,
-  "description": "PromptBridge: turns non-technical intent into expert prompts with a planner LLM, then executes them with Claude.",
+  "description": "Sitenura: turns non-technical intent into expert prompts with a planner LLM, then executes them with Claude.",
   "packageManager": "pnpm@10.24.0",
   "engines": {
     "node": ">=22"
@@ -16,8 +16,8 @@
     "format:check": "prettier --check .",
     "db:up": "docker compose up -d postgres",
     "db:down": "docker compose down",
-    "db:migrate": "pnpm --filter @prompt-bridge/api prisma:migrate",
-    "db:studio": "pnpm --filter @prompt-bridge/api prisma:studio"
+    "db:migrate": "pnpm --filter @sitenura/api prisma:migrate",
+    "db:studio": "pnpm --filter @sitenura/api prisma:studio"
   },
   "devDependencies": {
     "prettier": "^3.10.1",

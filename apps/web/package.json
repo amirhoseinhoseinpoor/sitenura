@@ -1,5 +1,5 @@
 {
-  "name": "@prompt-bridge/web",
+  "name": "@sitenura/web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^7.0.6",
-    "@prompt-bridge/shared": "workspace:*",
+    "@sitenura/shared": "workspace:*",
     "@tanstack/react-query": "^5.107.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
