@@ -12,7 +12,7 @@ turns that into expert prompts, splits them into small ordered chunks, and
 
 | Area     | Tech                                                                                              |
 | -------- | ------------------------------------------------------------------------------------------------- |
-| Frontend | Next.js 16, React 19, Tailwind CSS 4, TanStack Query, React Hook Form                             |
+| Frontend | Next.js 16, React 19, Tailwind CSS 4, TanStack Query, Lucide icons                                |
 | Backend  | NestJS 12, Prisma 7, Pino, Swagger, Helmet, Throttler, Terminus                                   |
 | Database | PostgreSQL 17 (Docker)                                                                            |
 | Shared   | Zod 4 schemas as the single API contract                                                          |
@@ -34,6 +34,13 @@ pnpm dev            # web on :3000, API on :4000
 - Web: http://localhost:3000
 - API docs (Swagger): http://localhost:4000/api/docs
 - Health: http://localhost:4000/api/v1/health
+
+### Port 5432 unavailable (Windows)
+
+Hyper-V/WSL can reserve port ranges (check with
+`netsh int ipv4 show excludedportrange protocol=tcp`). If Postgres can't bind,
+copy `.env.example` to `.env` at the repo root, set `POSTGRES_PORT=15432`, and use the
+same port in `DATABASE_URL` in `apps/api/.env`.
 
 ## Scripts
 
