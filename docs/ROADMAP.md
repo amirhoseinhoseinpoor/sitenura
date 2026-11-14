@@ -17,7 +17,7 @@ the user) writes expert prompts â†’ prompts are split into ordered **chunks** â†
 - [x] Prisma 7 + PostgreSQL 17 (Docker Compose), `Project` and `PromptChunk` models
 - [x] Layered modules (domain / application / infrastructure / presentation)
 - [x] `LlmProvider` port (contract only)
-- [x] Next.js 16 web app: Persian/RTL, Tailwind 4 design tokens, React Query,
+- [x] Next.js 16 web app: English UI (Geist font), Tailwind 4 design tokens, React Query,
       typed and Zod-validated API client, BASIC/ADVANCED mode picker
 - [x] Shared Zod contracts used by both API and web
 - [x] GitHub Actions CI (lint, typecheck, test, build)
@@ -67,6 +67,6 @@ structured "website brief" saved in the database.
 
 - [ ] Auth (email + OAuth), project ownership
 - [ ] Usage limits and billing hooks
-- [ ] i18n (fa / en), accessibility pass
+- [ ] i18n (additional languages, including RTL), accessibility pass
 - [ ] Observability (OpenTelemetry), Dockerfiles, staging environment
 - [ ] E2E tests with Playwright

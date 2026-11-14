@@ -9,15 +9,16 @@ import { cn } from '@/lib/utils';
 const MODES = [
   {
     value: InteractionMode.BASIC,
-    title: 'حالت ساده',
+    title: 'Basic',
     description:
-      'برنامه‌نویسی بلد نیستی؟ قدم‌به‌قدم ازت رنگ، قالب و ظاهر سایت رو می‌پرسیم و بقیه‌اش با ما.',
+      "Don't code? We'll guide you step by step through colors, templates and layout, and handle the rest.",
     icon: Sparkles,
   },
   {
     value: InteractionMode.ADVANCED,
-    title: 'حالت پیشرفته',
-    description: 'خودت دقیق می‌دونی چی می‌خوای؟ درخواستت رو آزاد بنویس و مدل‌ها رو خودت انتخاب کن.',
+    title: 'Advanced',
+    description:
+      'Know exactly what you want? Describe it in your own words and choose the AI models yourself.',
     icon: Code2,
   },
 ] as const;
@@ -27,7 +28,7 @@ export function ModePicker() {
 
   return (
     <div className="flex w-full flex-col gap-6">
-      <div role="radiogroup" aria-label="انتخاب حالت" className="grid gap-4 sm:grid-cols-2">
+      <div role="radiogroup" aria-label="Choose a mode" className="grid gap-4 sm:grid-cols-2">
         {MODES.map(({ value, title, description, icon: Icon }) => {
           const active = selected === value;
           return (
@@ -54,7 +55,7 @@ export function ModePicker() {
 
       {/* Wizard / advanced editor are wired up in Phase 1 & 3 of the roadmap. */}
       <Button size="lg" disabled={!selected} className="self-start">
-        ادامه
+        Continue
       </Button>
     </div>
   );
