@@ -63,7 +63,7 @@ src/
 └── lib/            api-client, env validation, utils
 ```
 
-- RTL + Persian (Vazirmatn) by default
+- English UI with the Geist font; logical CSS properties keep it RTL-ready
 - Semantic design tokens in `globals.css` (light/dark)
 - Server state via TanStack Query; forms via React Hook Form + Zod
 
