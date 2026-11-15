@@ -42,6 +42,17 @@ Hyper-V/WSL can reserve port ranges (check with
 copy `.env.example` to `.env` at the repo root, set `POSTGRES_PORT=15432`, and use the
 same port in `DATABASE_URL` in `apps/api/.env`.
 
+### LLM API keys
+
+Set any of `OPENAI_API_KEY`, `GEMINI_API_KEY`, `ANTHROPIC_API_KEY` in `apps/api/.env`.
+Providers without a key are listed as unavailable. Models are configurable
+(`OPENAI_MODEL`, `GEMINI_MODEL`, `ANTHROPIC_MODEL`, `ANTHROPIC_EFFORT`). Variables set
+in your shell or OS override `.env`. Check your keys with one tiny billed call each:
+
+```bash
+pnpm --filter @sitenura/api llm:smoke
+```
+
 ## Scripts
 
 | Command          | What it does                 |

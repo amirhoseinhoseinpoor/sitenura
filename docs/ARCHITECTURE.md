@@ -53,6 +53,21 @@ Cross-cutting pieces:
 (OpenAI, Gemini, Anthropic) is an adapter behind it. The planner and the executor
 depend only on the port, so adding a provider never touches the pipeline.
 
+- **Adapters** (`infrastructure/providers/`) wrap the official SDKs and translate
+  their typed errors into a provider-neutral `LlmError` with a `kind`
+  (`auth`, `rate_limit`, `timeout`, `unavailable`, `bad_request`, `cancelled`).
+  Stop reasons are normalized to `complete | max_tokens | refusal`.
+- **Registry** (`LlmRegistry`) holds the adapters whose API key is set and lists
+  all providers with their availability (`GET /api/v1/llm/providers`).
+- **`LlmService`** is the only entry point for callers. It applies a per-attempt
+  timeout, retries retryable kinds with exponential backoff and full jitter (SDK
+  retries are disabled so behavior is uniform), and records every call in
+  `llm_calls` (provider, model, purpose, attempts, latency, tokens, error kind).
+  A failure to record never fails the call.
+- **Claude** is called with streaming (`finalMessage()`), adaptive thinking with a
+  configurable `ANTHROPIC_EFFORT`, and server-side refusal fallbacks
+  (`fallbacks: "default"`).
+
 ## Web: feature-sliced
 
 ```
@@ -88,3 +103,4 @@ Adding a step: add the field to the brief schema, a catalog if needed, an entry 
 - `Project`: name, mode (BASIC/ADVANCED), planner provider, status, `requirements`
   (wizard answers as JSON), `wizardStep` (resume point)
 - `PromptChunk`: ordered unit of work: `userIntent` → `plannedPrompt` (planner) → `executorOutput` (Claude)
+- `LlmCall`: one row per LLM request (usage, latency, outcome), optionally linked to a project

@@ -38,11 +38,13 @@ structured "website brief" saved in the database.
 
 ## Phase 2: LLM provider adapters
 
-- [ ] Adapters implementing `LlmProvider`: OpenAI, Gemini, Anthropic (official SDKs)
-- [ ] Provider registry + per-project planner selection
-- [ ] Retries with backoff, timeouts, token/cost tracking per call
-- [ ] Secrets: server-side env first, then encrypted per-user keys (later phase)
-- [ ] Contract tests with mocked HTTP
+- [x] Adapters implementing `LlmProvider`: OpenAI, Gemini, Anthropic (official SDKs)
+- [x] Provider registry (`GET /api/v1/llm/providers`); projects already store their planner
+- [x] Retries with backoff, timeouts, token tracking per call (`llm_calls` table)
+- [ ] Cost estimates per call (needs a price table per model)
+- [x] Secrets: server-side env keys
+- [ ] Encrypted per-user keys (with auth, Phase 5)
+- [x] Adapter tests with fake SDK clients, plus `pnpm --filter @sitenura/api llm:smoke` for live keys
 
 ## Phase 3: Planner pipeline (brief → chunked prompts)
 

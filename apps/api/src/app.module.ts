@@ -7,6 +7,7 @@ import { AppConfigService } from './config/app-config.service.js';
 import { AppConfigModule } from './config/config.module.js';
 import { DatabaseModule } from './infrastructure/database/database.module.js';
 import { HealthModule } from './modules/health/health.module.js';
+import { LlmModule } from './modules/llm/llm.module.js';
 import { ProjectsModule } from './modules/projects/projects.module.js';
 
 @Module({
@@ -27,6 +28,7 @@ import { ProjectsModule } from './modules/projects/projects.module.js';
     ThrottlerModule.forRoot([{ ttl: 60_000, limit: 120 }]),
     DatabaseModule,
     HealthModule,
+    LlmModule,
     ProjectsModule,
   ],
   providers: [
