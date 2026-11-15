@@ -48,7 +48,9 @@ model Project {
   status          ProjectStatus   @default(DRAFT)
 
   /// Answers collected by the BASIC wizard (colors, template, pages, ...).
-  requirements Json @default("{}")
+  requirements Json    @default("{}")
+  /// Wizard step to resume on (id from @sitenura/shared WIZARD_STEPS).
+  wizardStep   String? @map("wizard_step") @db.VarChar(40)
 
   chunks PromptChunk[]
 
