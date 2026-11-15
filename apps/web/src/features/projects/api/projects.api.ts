@@ -1,4 +1,9 @@
-import { projectSchema, type CreateProjectInput, type Project } from '@sitenura/shared';
+import {
+  projectSchema,
+  type CreateProjectInput,
+  type Project,
+  type UpdateRequirementsInput,
+} from '@sitenura/shared';
 import { apiRequest } from '@/lib/api-client';
 
 export const projectsKeys = {
@@ -12,4 +17,16 @@ export function createProject(input: CreateProjectInput): Promise<Project> {
 
 export function listProjects(signal?: AbortSignal): Promise<Project[]> {
   return apiRequest('/projects', { schema: projectSchema.array(), signal });
+}
+
+export function getProject(id: string, signal?: AbortSignal): Promise<Project> {
+  return apiRequest(`/projects/${id}`, { schema: projectSchema, signal });
+}
+
+export function saveRequirements(id: string, input: UpdateRequirementsInput): Promise<Project> {
+  return apiRequest(`/projects/${id}/requirements`, {
+    method: 'PATCH',
+    body: input,
+    schema: projectSchema,
+  });
 }
