@@ -52,13 +52,44 @@ model Project {
   /// Wizard step to resume on (id from @sitenura/shared WIZARD_STEPS).
   wizardStep   String? @map("wizard_step") @db.VarChar(40)
 
-  chunks PromptChunk[]
+  chunks   PromptChunk[]
+  llmCalls LlmCall[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@index([status])
   @@map("projects")
+}
+
+enum LlmCallStatus {
+  SUCCEEDED
+  FAILED
+}
+
+/// One logical LLM request (including its retries), for usage and cost tracking.
+model LlmCall {
+  id           String          @id @default(uuid()) @db.Uuid
+  provider     PlannerProvider
+  model        String          @db.VarChar(100)
+  /// What the call was for, e.g. "planner", "executor", "smoke-test".
+  purpose      String          @db.VarChar(40)
+  status       LlmCallStatus
+  attempts     Int
+  latencyMs    Int             @map("latency_ms")
+  inputTokens  Int?            @map("input_tokens")
+  outputTokens Int?            @map("output_tokens")
+  /// LlmErrorKind when the call failed.
+  errorKind    String?         @map("error_kind") @db.VarChar(40)
+
+  projectId String?  @map("project_id") @db.Uuid
+  project   Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([projectId])
+  @@index([createdAt])
+  @@map("llm_calls")
 }
 
 /// One ordered piece of work: the planner turns user intent into a prompt,
