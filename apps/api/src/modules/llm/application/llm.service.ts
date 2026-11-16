@@ -21,6 +21,8 @@ export interface CompleteOptions {
   projectId?: string;
   /** Caller-side cancellation (e.g. the HTTP client went away). */
   signal?: AbortSignal;
+  /** Overrides the per-attempt timeout from the policy (e.g. short health checks). */
+  timeoutMs?: number;
 }
 
 /**
@@ -49,11 +51,24 @@ export class LlmService {
 
     try {
       const outcome = await withRetry(
-        (attempt) => {
+        async (attempt) => {
           attempts = attempt;
-          const signals = [AbortSignal.timeout(this.policy.timeoutMs)];
+          const timeoutMs = options.timeoutMs ?? this.policy.timeoutMs;
+          const deadline = AbortSignal.timeout(timeoutMs);
+          const signals = [deadline];
           if (options.signal) signals.push(options.signal);
-          return provider.complete({ ...request, signal: AbortSignal.any(signals) });
+          try {
+            return await provider.complete({ ...request, signal: AbortSignal.any(signals) });
+          } catch (error) {
+            // Adapters see any abort as "cancelled". If our own deadline fired
+            // (not the caller), it is a timeout, which is worth retrying.
+            if (deadline.aborted && !options.signal?.aborted) {
+              throw new LlmError(providerId, 'timeout', `No response within ${timeoutMs} ms`, {
+                cause: error,
+              });
+            }
+            throw error;
+          }
         },
         {
           maxRetries: this.policy.maxRetries,
@@ -112,12 +127,26 @@ export class LlmService {
     try {
       await this.calls.record(call);
     } catch (error) {
-      this.logger.error(`Failed to record LLM usage: ${describe(error)}`);
+      const hint =
+        errorCode(error) === 'ECONNREFUSED'
+          ? ' The database is not reachable. Is it running? (pnpm db:up)'
+          : '';
+      this.logger.error(`Failed to record LLM usage: ${describe(error)}.${hint}`);
     }
   }
 }
 
 function describe(error: unknown): string {
   if (error instanceof LlmError) return `${error.kind}: ${error.message}`;
-  return error instanceof Error ? error.message : String(error);
+  if (!(error instanceof Error)) return String(error);
+  // Prisma messages are multi-line and can be empty after their header;
+  // the real reason is then only in `code` (e.g. ECONNREFUSED).
+  const message = error.message.replace(/\s+/g, ' ').trim();
+  const code = errorCode(error);
+  return code ? `${message} [${code}]` : message;
+}
+
+function errorCode(error: unknown): string | undefined {
+  const code = (error as { code?: unknown } | null)?.code;
+  return typeof code === 'string' ? code : undefined;
 }

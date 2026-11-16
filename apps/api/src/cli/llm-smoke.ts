@@ -30,7 +30,8 @@ for (const provider of registry.list()) {
         messages: [{ role: 'user', content: 'Are you there?' }],
         maxTokens: 4_000,
       },
-      { purpose: 'smoke-test' },
+      // A health check should answer fast; don't wait the planner's full timeout.
+      { purpose: 'smoke-test', timeoutMs: 60_000 },
     );
     console.log(
       `✓ ${provider.label}: "${result.text.trim().slice(0, 40)}" ` +

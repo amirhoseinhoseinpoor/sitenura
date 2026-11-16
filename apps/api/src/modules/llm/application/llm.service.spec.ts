@@ -28,6 +28,18 @@ class FakeProvider implements LlmProvider {
   }
 }
 
+/** Never answers; reacts to aborts the way the real adapters do. */
+class HangingProvider extends FakeProvider {
+  override async complete(request: LlmCompletionRequest): Promise<LlmCompletionResult> {
+    this.requests.push(request);
+    return new Promise((_, reject) => {
+      request.signal?.addEventListener('abort', () =>
+        reject(new LlmError(PlannerProvider.OPENAI, 'cancelled', 'Request was cancelled')),
+      );
+    });
+  }
+}
+
 class InMemoryCalls extends LlmCallRepository {
   readonly records: LlmCallRecord[] = [];
   async record(call: LlmCallRecord): Promise<void> {
@@ -116,6 +128,30 @@ describe('LlmService', () => {
       { kind: 'rate_limit' },
     );
     expect(calls.records[0]).toMatchObject({ status: 'FAILED', attempts: 3 });
+  });
+
+  it('reports its own deadline as a retryable timeout, not a cancellation', async () => {
+    const provider = new HangingProvider();
+    const { service, calls } = setup(provider);
+
+    await expect(
+      service.complete('OPENAI', request, { purpose: 'planner', timeoutMs: 20 }),
+    ).rejects.toMatchObject({ kind: 'timeout' });
+
+    expect(provider.requests).toHaveLength(3);
+    expect(calls.records[0]).toMatchObject({ status: 'FAILED', attempts: 3, errorKind: 'timeout' });
+  });
+
+  it('does not retry when the caller cancels', async () => {
+    const provider = new HangingProvider();
+    const { service } = setup(provider);
+    const controller = new AbortController();
+    setTimeout(() => controller.abort(), 20);
+
+    await expect(
+      service.complete('OPENAI', request, { purpose: 'planner', signal: controller.signal }),
+    ).rejects.toMatchObject({ kind: 'cancelled' });
+    expect(provider.requests).toHaveLength(1);
   });
 
   it('rejects providers without an API key', async () => {
