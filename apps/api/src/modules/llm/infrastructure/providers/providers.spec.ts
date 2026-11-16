@@ -141,7 +141,7 @@ describe('GeminiProvider', () => {
     const generateContent = vi.fn().mockReturnValue(result);
     const client = { models: { generateContent } } as unknown as GoogleGenAI;
     return {
-      provider: new GeminiProvider(client, { model: 'gemini-pro-latest' }),
+      provider: new GeminiProvider(client, { model: 'gemini-3.5-flash' }),
       generateContent,
     };
   }

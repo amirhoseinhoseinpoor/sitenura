@@ -30,7 +30,7 @@ export const envSchema = z.object({
   OPENAI_API_KEY: optionalSecret,
   OPENAI_MODEL: z.string().min(1).default('gpt-6-astra'),
   GEMINI_API_KEY: optionalSecret,
-  GEMINI_MODEL: z.string().min(1).default('gemini-pro-latest'),
+  GEMINI_MODEL: z.string().min(1).default('gemini-3.5-flash'),
   ANTHROPIC_API_KEY: optionalSecret,
   ANTHROPIC_MODEL: z.string().min(1).default('claude-opus-5-5'),
   ANTHROPIC_EFFORT: z.enum(['low', 'medium', 'high', 'xhigh', 'max']).default('high'),
