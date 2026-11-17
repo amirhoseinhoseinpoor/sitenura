@@ -24,6 +24,12 @@ describe('API (e2e)', () => {
     expect(res.body.status).toBe('ok');
   });
 
+  it('GET /api/v1/llm/providers lists planners without exposing keys', async () => {
+    const res = await request(app.getHttpServer()).get('/api/v1/llm/providers').expect(200);
+    expect(res.body.map((p: { id: string }) => p.id)).toEqual(['OPENAI', 'GEMINI', 'ANTHROPIC']);
+    expect(JSON.stringify(res.body)).not.toMatch(/key/i);
+  });
+
   it('POST /api/v1/projects rejects invalid payloads', async () => {
     await request(app.getHttpServer()).post('/api/v1/projects').send({ name: 'x' }).expect(400);
   });

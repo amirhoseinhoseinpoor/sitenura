@@ -1,5 +1,12 @@
 import { z } from 'zod';
 
+/** Treats an empty string (e.g. `OPENAI_API_KEY=` in .env) as "not set". */
+const optionalSecret = z
+  .string()
+  .trim()
+  .optional()
+  .transform((value) => (value ? value : undefined));
+
 /**
  * Single source of truth for runtime configuration.
  * The app refuses to boot if the environment does not match this schema.
@@ -18,9 +25,20 @@ export const envSchema = z.object({
         .filter(Boolean),
     ),
   DATABASE_URL: z.url(),
-  OPENAI_API_KEY: z.string().optional(),
-  GEMINI_API_KEY: z.string().optional(),
-  ANTHROPIC_API_KEY: z.string().optional(),
+
+  // LLM providers. A provider is enabled only when its API key is set.
+  OPENAI_API_KEY: optionalSecret,
+  OPENAI_MODEL: z.string().min(1).default('gpt-6-astra'),
+  GEMINI_API_KEY: optionalSecret,
+  GEMINI_MODEL: z.string().min(1).default('gemini-3.5-flash'),
+  ANTHROPIC_API_KEY: optionalSecret,
+  ANTHROPIC_MODEL: z.string().min(1).default('claude-opus-5-5'),
+  ANTHROPIC_EFFORT: z.enum(['low', 'medium', 'high', 'xhigh', 'max']).default('high'),
+
+  /** Upper bound for one LLM attempt. Long generations can take minutes. */
+  LLM_TIMEOUT_MS: z.coerce.number().int().positive().default(300_000),
+  /** Retries after the first attempt for transient failures (429, 5xx, network). */
+  LLM_MAX_RETRIES: z.coerce.number().int().min(0).max(5).default(2),
 });
 
 export type Env = z.infer<typeof envSchema>;
